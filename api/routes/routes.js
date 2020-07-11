@@ -10,6 +10,7 @@ const { catchErrors } = require('../handlers/errorHandlers');
 router.get("/", postController.indexPage);
 
 router.get("/login", userController.loginForm);
+
 router.post("/login", authController.login)
 
 router.get("/timeline", authController.isLoggedIn, postController.timeline);

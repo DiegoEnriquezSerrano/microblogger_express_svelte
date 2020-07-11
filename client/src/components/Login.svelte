@@ -1,5 +1,11 @@
 <script>
 
+import { createEventDispatcher } from 'svelte';
+
+export let page;
+
+let dispatch = createEventDispatcher();
+
 let homeModule;
 let loginActive;
 let username;
@@ -35,26 +41,22 @@ let authenticate = (e) => {
       let string = data.split('')[0];
       if (string == '{')
         string = JSON.parse(data);
-        string.success.type == 'success' ? window.location.href = 'http://localhost:4000/timeline' : console.error(string);
+        string.success.type == 'success' ?
+          console.log(data) :
+          console.error(string);
     });
   };
 };
 
 function processAjaxData(response, urlPath){
-
-  window.history.pushState(
-    {
-        "html":response,
-        "pageTitle":response.pageTitle
+  window.history.pushState({
+      "html":response,
+      "pageTitle":response.pageTitle
     },
     "",
     urlPath
   );
-
-  // console.log(document);
-  // document.firstElementChild.innerHTML = response;
-  // console.log(response);
-}
+};
 
 let login = (e) => {
   e.target.blur();
@@ -80,7 +82,8 @@ let login = (e) => {
         let string = data.split('')[0];
         if (string == '{') {console.log('error')} else {
           processAjaxData(data, 'http://localhost:4000/timeline');
-        }
+          dispatch('loadPage', 'timeline');
+        };
       };
     });
   };
@@ -226,18 +229,6 @@ form input:focus {
 
 form input:focus::placeholder {
   opacity: 0;
-}
-
-#auth_box_submit_button {
-  padding: 10px 25px;
-  border-radius: 20px;
-  background: var(--cta);
-  border: 1px solid var(--cta);
-  box-shadow: -1px 1px 3px 0 rgb(0,0,0);
-}
-
-#auth_box_submit_button:hover {
-  cursor: pointer;
 }
 
 #theLink {

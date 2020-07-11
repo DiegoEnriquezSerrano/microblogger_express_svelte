@@ -1,16 +1,28 @@
 <script>
   import Navbar from './Navbar.svelte';
-  export let paths;
+	import Login from "./Login.svelte";
 
-  console.log(paths);
+  export let page;
+
+  console.log(page);
+
+  const loadPage = (e) => {
+    page = e.detail;
+  }
 </script>
 
 <svelte:head>
-  <title>Microblogger | Timeline</title>
+  <title>Microblogger | {page}</title>
 </svelte:head>
 
-  <Navbar />
+{#if page == 'login'}
+  <Login {page} on:loadPage={loadPage} />
+{:else}
+  <Navbar {page} />
 
   <div id="homeModule">
   
   </div><!--homeModule-->
+{/if}
+
+

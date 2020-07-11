@@ -1,3 +1,9 @@
+<script>
+
+export let page;
+
+</script>
+
 <nav class="navbar">
   <span class="nav-item"><a class="nav-link">Feed</a></span>
   <span class="nav-item"><a class="nav-link">Published</a></span>
