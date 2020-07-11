@@ -1,0 +1,34 @@
+{
+  "name": "microblogger",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon ./start.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "connect-flash": "^0.1.1",
+    "connect-mongo": "^3.2.0",
+    "cookie-parser": "^1.4.5",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "es6-promisify": "^6.1.1",
+    "express": "^4.17.1",
+    "express-session": "^1.17.1",
+    "express-validator": "^5.3.1",
+    "md5": "^2.2.1",
+    "moment": "^2.27.0",
+    "mongoose": "^5.9.22",
+    "mongoose-mongodb-errors": "0.0.2",
+    "morgan": "^1.10.0",
+    "passport": "^0.4.1",
+    "passport-local-mongoose": "^6.0.1",
+    "promisify": "0.0.3",
+    "validator": "^13.1.1"
+  }
+}
