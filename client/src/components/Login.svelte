@@ -10,6 +10,7 @@ let url;
 let params;
 let body;
 
+
 let authenticate = (e) => {
   e.target.blur();
   let body = {
@@ -43,13 +44,16 @@ function processAjaxData(response, urlPath){
 
   window.history.pushState(
     {
-        "html":response.html,
+        "html":response,
         "pageTitle":response.pageTitle
     },
     "",
     urlPath
   );
-  console.log = response.html;
+
+  // console.log(document);
+  // document.firstElementChild.innerHTML = response;
+  // console.log(response);
 }
 
 let login = (e) => {
@@ -94,6 +98,10 @@ let loginToggle = (e) => {
 
 </script>
 
+<svelte:head>
+  <title>Microblogger | Login</title>
+</svelte:head>
+
   <div id="homeModule" class:active>
     <div id="theLinkContainer">
       <a id="theLink" href="/">
@@ -113,9 +121,9 @@ let loginToggle = (e) => {
         </div><!--'auth_box_bod'-->
       </form>
         {#if active == true}
-          <button on:focus={authenticate}>Register</button>
+          <button class="button" on:focus={authenticate}>Register</button>
         {:else}
-          <button on:focus={login}>Login</button>
+          <button class="button" on:focus={login}>Login</button>
         {/if}
               <div id="auth_box_foot">
           <p>New user? <a id="toggle_auth_box_login" on:click={loginToggle}>Create an account.</a></p>
