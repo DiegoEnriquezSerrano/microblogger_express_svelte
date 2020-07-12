@@ -1,28 +1,34 @@
 <script>
   import Navbar from './Navbar.svelte';
-	import Login from "./Login.svelte";
+  import { createEventDispatcher } from 'svelte';
 
   export let page;
 
-  console.log(page);
+  $: pageName = page;
+  $: pageNameCapitalized = page[0].toUpperCase() + page.slice(1);
 
-  const loadPage = (e) => {
-    page = e.detail;
+  let dispatch = createEventDispatcher();
+
+  let loadPage = (e) => {
+    dispatch('bubbleApp', e.detail);
   }
+
 </script>
 
 <svelte:head>
-  <title>Microblogger | {page}</title>
+  <title>Microblogger | {pageNameCapitalized}</title>
 </svelte:head>
 
-{#if page == 'login'}
-  <Login {page} on:loadPage={loadPage} />
-{:else}
-  <Navbar {page} />
+  <Navbar page={pageName} on:loadPage={loadPage} />
 
   <div id="homeModule">
-  
+  {#if pageName == 'timeline'}
+    timeline
+  {:else if pageName == 'drafts'}
+    draft
+  {:else if pageName == 'published'}
+    published
+  {:else if pageName == 'liked'}
+    liked
+  {/if}
   </div><!--homeModule-->
-{/if}
-
-

@@ -4,6 +4,7 @@ const { promisify } = require('es6-promisify');
 const path = require("path");
 
 exports.loginForm = (req, res) => {
+  res.statusCode = 400;
   res.sendFile( path.join(__dirname, "../../client", "public", "index.html"));
 };
 
@@ -40,8 +41,8 @@ exports.register = async (req, res, next) => {
       if (err) {
         res.statusCode = 400;
         if (err.name != "UserExistsError") {
-          err = { error: { type: 'error', name: "InvalidUsername", message: "A user with the given username is already registered" } }
-        } else err = { error: { type: 'error', name: err.name, message: "A user with the given email is already registered" } };
+          err = { response: { type: 'error', name: "InvalidUsername", message: "A user with the given username is already registered" } }
+        } else err = { response: { type: 'error', name: err.name, message: "A user with the given email is already registered" } };
       } res.send(err);
     }
     finally { user && next() };

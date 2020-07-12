@@ -63,13 +63,13 @@ html {
 
 body {
   background-color: var(--bg);
-  font: normal normal normal 1.0rem/1.2rem  'Libre Franklin Medium', 'Arial', 'sans-serif';
+  font: normal normal normal 1.0rem/1.2rem  'Arial', 'sans-serif';
   display: block;
   min-height: 100vh;
 }
 
 button {
-  font: normal normal bold 1.0rem/1.2rem 'Libre Franklin Medium', 'Arial', 'sans-serif';
+  font: normal normal bold 1.0rem/1.2rem 'Arial', 'sans-serif';
   background-color: var(--cta);
   color: var(--copy);
   border: 0
@@ -95,7 +95,7 @@ button:hover, a:hover {
   border: 2px solid var(--cta);
   transition: all ease-out 0.3s;
   font-weight: bold;
-  font-family: 'Libre Franklin Bold';
+  font-family: 'Arial';
 }
 
 .button.secondary {

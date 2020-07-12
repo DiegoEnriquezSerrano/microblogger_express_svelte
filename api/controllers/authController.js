@@ -1,24 +1,16 @@
 const passport = require('passport');
-
-exports.login = passport.authenticate('local', {
-  failureRedirect: '/login',
-  failureFlash: 'Failed Login!',
-  successRedirect: '/',
-  successFlash: 'You are now logged in'
-});
+const path = require("path");
 
 exports.logout = (req, res) => {
-  console.log(req.session);
   req.logout();
-  console.log(req.session);
-  res.redirect('/')
+  res.redirect('/');
 };
 
 exports.isLoggedIn = (req, res, next) => {
   if(req.isAuthenticated()) {
     next();
-    return;
-  }
-  req.flash('error', 'Oops you must be logged in to do that!');
-  res.redirect('/login');
-}
+  } else {
+    res.statusCode = 400;
+    res.redirect('/login');
+  };
+};
