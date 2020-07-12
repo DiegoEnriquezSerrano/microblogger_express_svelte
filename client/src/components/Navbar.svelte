@@ -1,38 +1,21 @@
 <script>
 
 import { createEventDispatcher } from 'svelte';
+import { processAjaxData } from '../javascript/functions.js';
 
 export let page;
 
 let dispatch = createEventDispatcher();
 
-function processAjaxData(response, urlPath){
-  window.history.pushState({
-      "html":response,
-      "pageTitle":response.pageTitle
-    },
-    "",
-    urlPath
-  );
-};
-
 async function navbarClick(e) {
   let path = e.target.pathname.split('/').slice(1).join('/');
-  let params = {
-    method: 'GET',
-    headers: { "Content-Type": "application/json" }
-  };
-
+  let params = { method: 'GET', headers: { "Content-Type": "application/json" } };
   fetch(path, params)
   .then(response => {
-    response = {
-      status: response.status,
-      response: response
-    }
+    response = { status: response.status, response: response }
     return response;
-    })
+  })
   .then(async data => {
-    console.log(data);
     let res = await data.response.text();
     if (data.status === 200) {
     processAjaxData(res, path);
@@ -41,13 +24,22 @@ async function navbarClick(e) {
   });
 };
 
+console.log(page)
+
 </script>
 
 <nav class="navbar">
+{#if page === "timeline" || page === "published" || page === "drafts" || page === "liked"}
   <span class="nav-item"><a class="nav-link" on:click|preventDefault={navbarClick} href="timeline">Feed</a></span>
   <span class="nav-item"><a class="nav-link" on:click|preventDefault={navbarClick} href="published">Published</a></span>
   <span class="nav-item"><a class="nav-link" on:click|preventDefault={navbarClick} href="drafts">Drafts</a></span>
   <span class="nav-item"><a class="nav-link" on:click|preventDefault={navbarClick} href="liked">Liked</a></span>
+{:else if page === "directory"}
+  <span class="nav-item"><a class="nav-link" on:click|preventDefault={navbarClick} href="directory">All</a></span>
+  <span class="nav-item"><a class="nav-link" on:click|preventDefault={navbarClick} href="following">Following</a></span>
+  <span class="nav-item"><a class="nav-link" on:click|preventDefault={navbarClick} href="followers">Followers</a></span>
+  <span class="nav-item"><a class="nav-link" on:click|preventDefault={navbarClick} href="mutuals">Mutuals</a></span>
+{/if}
 </nav>
 
 <style>

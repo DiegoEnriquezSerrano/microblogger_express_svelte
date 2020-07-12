@@ -1,5 +1,6 @@
 <script>
 import { createEventDispatcher } from 'svelte';
+import { processAjaxData } from '../javascript/functions.js';
 
 export let key;
 export let section;
@@ -7,38 +8,19 @@ export let page;
 
 let dispatch = createEventDispatcher();
 
-function processAjaxData(response, urlPath){
-  window.history.pushState({
-      "html":response,
-      "pageTitle":response.pageTitle
-    },
-    "",
-    urlPath
-  );
-};
-
 async function sectionClick(path) {
-  let text;
-  let params = {
-    method: 'GET',
-    headers: { "Content-Type": "application/json" }
-  };
-
+  let params = { method: 'GET', headers: { "Content-Type": "application/json" } };
   fetch(path, params)
   .then(response => {
-    response = {
-      status: response.status,
-      response: response
-    }
+    response = { status: response.status, response: response }
     return response;
-    })
+  })
   .then(async data => {
-    console.log(data);
     let res = await data.response.text();
     if (data.status === 200) {
     processAjaxData(res, path);
     dispatch('bubbleSection', path);
-    }
+    };
   });
 };
 

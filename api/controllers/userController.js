@@ -12,6 +12,10 @@ exports.authenticate = (req, res) => {
   res.sendFile( path.join(__dirname, "../../client", "public", "index.html"));
 };
 
+exports.directory = (req, res) => {
+  res.sendFile( path.join(__dirname, "../../client", "public", "index.html"));
+}
+
 exports.validateRegister = (req, res, next) => {
   console.log(req.body);
   req.sanitizeBody('username');

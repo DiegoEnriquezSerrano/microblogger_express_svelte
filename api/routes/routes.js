@@ -16,6 +16,9 @@ router.get("/drafts", authController.isLoggedIn, postController.drafts);
 router.get("/published", authController.isLoggedIn, postController.published);
 router.get("/liked", authController.isLoggedIn, postController.liked);
 
+
+router.get("/directory", authController.isLoggedIn, userController.directory);
+
 router.post('/login',
   passport.authenticate('local'),
   function(req, res) {
