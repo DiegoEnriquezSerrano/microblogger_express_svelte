@@ -24,8 +24,6 @@ async function navbarClick(e) {
   });
 };
 
-console.log(page)
-
 </script>
 
 <nav class="navbar">

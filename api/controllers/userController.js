@@ -16,6 +16,11 @@ exports.directory = (req, res) => {
   res.sendFile( path.join(__dirname, "../../client", "public", "index.html"));
 }
 
+exports.directoryUsers = async (req, res) => {
+  const users = await User.find();
+  res.send(users);
+}
+
 exports.validateRegister = (req, res, next) => {
   console.log(req.body);
   req.sanitizeBody('username');

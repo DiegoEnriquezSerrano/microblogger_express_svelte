@@ -32,7 +32,7 @@ let loadPage = (e) => {
   <Index page={page} on:bubbleApp={navigate} />
 {:else if page == "directory"}
   <Navbar page={page} on:loadPage={loadPage} />
-	<Directory />
+	<Directory page={page} />
 {:else if page == "login"}
   <Login page={page} on:loadPage={loadPage} />
 {/if}

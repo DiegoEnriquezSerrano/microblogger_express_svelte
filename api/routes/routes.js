@@ -18,6 +18,7 @@ router.get("/liked", authController.isLoggedIn, postController.liked);
 
 
 router.get("/directory", authController.isLoggedIn, userController.directory);
+router.get("/getUsers", authController.isLoggedIn, userController.directoryUsers)
 
 router.post('/login',
   passport.authenticate('local'),
