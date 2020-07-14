@@ -1,8 +1,10 @@
 <script>
 
 import { createEventDispatcher } from 'svelte';
+import { isAuthenticated } from '../javascript/functions.js';
 
 export let page;
+export let user = {};
 
 let dispatch = createEventDispatcher();
 
@@ -63,7 +65,7 @@ let authenticate = (e) => {
   };
 };
 
-let login = (e) => {
+let login = async (e) => {
   e.target.blur();
   body.password = password.value;
   body.email = email.value;
@@ -77,7 +79,7 @@ let login = (e) => {
 
     fetch(url, params)
     .then(response => {return response.text()})
-    .then(data =>  {
+    .then(async (data) => {
       let res;
       if (data === 'Unauthorized') {
         res = {
@@ -91,6 +93,9 @@ let login = (e) => {
       if(res.response.type == "success") {
         processAjaxData(data, 'http://localhost:4000/timeline');
         dispatch('loadPage', 'timeline');
+        user = await isAuthenticated();
+        user = await user.text();
+        dispatch('userLogin', JSON.parse(user));
       } else console.error(res.response);
     });
   };

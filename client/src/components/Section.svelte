@@ -10,7 +10,7 @@ let dispatch = createEventDispatcher();
 
 async function sectionClick(path) {
   let params = { method: 'GET', headers: { "Content-Type": "application/json" } };
-  fetch(path, params)
+  await fetch(path, params)
   .then(response => {
     response = { status: response.status, response: response }
     return response;
@@ -19,7 +19,7 @@ async function sectionClick(path) {
     let res = await data.response.text();
     if (data.status === 200) {
     processAjaxData(res, path);
-    dispatch('bubbleSection', path);
+    dispatch('bubbleUp', path);
     };
   });
 };

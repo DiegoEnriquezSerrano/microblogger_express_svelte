@@ -37,6 +37,9 @@ async function navbarClick(e) {
   <span class="nav-item"><a class="nav-link" on:click|preventDefault={navbarClick} href="following">Following</a></span>
   <span class="nav-item"><a class="nav-link" on:click|preventDefault={navbarClick} href="followers">Followers</a></span>
   <span class="nav-item"><a class="nav-link" on:click|preventDefault={navbarClick} href="mutuals">Mutuals</a></span>
+{:else if page === "settings" || page === "account"}
+  <span class="nav-item"><a class="nav-link" on:click|preventDefault={navbarClick} href="settings">Profile</a></span>
+  <span class="nav-item"><a class="nav-link" on:click|preventDefault={navbarClick} href="account">Account</a></span>
 {/if}
 </nav>
 

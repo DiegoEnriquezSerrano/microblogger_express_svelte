@@ -25,6 +25,10 @@
 
 </script>
 
+<svelte:head>
+  <title>Microblogger | {pageNameCapitalized}</title>
+</svelte:head>
+
 <div id="usersModule">
   <div id="usersContainer">
     {#each users as user}

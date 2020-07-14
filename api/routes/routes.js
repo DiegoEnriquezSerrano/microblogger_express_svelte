@@ -3,6 +3,7 @@ const router = express.Router();
 const postController = require("../controllers/postController");
 const userController = require("../controllers/userController");
 const authController = require("../controllers/authController");
+const settingsController = require("../controllers/settingsController");
 const passport = require('passport');
 const path = require("path");
 const { catchErrors } = require('../handlers/errorHandlers');
@@ -18,7 +19,19 @@ router.get("/liked", authController.isLoggedIn, postController.liked);
 
 
 router.get("/directory", authController.isLoggedIn, userController.directory);
-router.get("/getUsers", authController.isLoggedIn, userController.directoryUsers)
+router.get("/getUsers", authController.isLoggedIn, userController.directoryUsers);
+
+router.get("/settings", authController.isLoggedIn, settingsController.profile);
+router.get("/account", authController.isLoggedIn, settingsController.account);
+
+router.get("/authorization", authController.isLoggedIn, authController.sendUser);
+
+router.post("/settings",
+  authController.isLoggedIn,
+  settingsController.upload,
+  catchErrors(settingsController.resize),
+  catchErrors(settingsController.updateProfile)
+)
 
 router.post('/login',
   passport.authenticate('local'),

@@ -13,8 +13,8 @@ let expandSections = (e) => {
   e.target.blur();
 }
 
-let bubbleSections = (e) => {
-  dispatch('bubbleApp', e.detail);
+let bubbleUp = (e) => {
+  dispatch('loadPage', e.detail);
 }
 </script>
 
@@ -37,7 +37,7 @@ let bubbleSections = (e) => {
     </button>
 
     {#each Object.keys($sections) as key}
-      <Section {page} key={key} section={$sections[key]} on:bubbleSection={bubbleSections} />
+      <Section {page} key={key} section={$sections[key]} on:bubbleUp={bubbleUp} />
     {/each}
 
     <a class="sectionLink" href='logout'>

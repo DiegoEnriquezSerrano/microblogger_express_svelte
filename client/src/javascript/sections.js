@@ -57,7 +57,7 @@ export let sections = writable({
   </svg>`,
     name: 'Messages'
   },
-  "account": {
+  "settings": {
     icon: `
   <svg class="icon" width="21px" height="20px" viewBox="0 0 21 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
     <title>settings</title>
@@ -69,7 +69,7 @@ export let sections = writable({
       </g>
     </g>
   </svg>`,
-    name: 'Account'
+    name: 'Settings'
   },
 
 });

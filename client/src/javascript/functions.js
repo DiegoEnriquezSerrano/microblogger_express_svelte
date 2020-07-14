@@ -7,3 +7,8 @@ export function processAjaxData(response, urlPath){
     urlPath
   );
 };
+
+export async function isAuthenticated() {
+  const user = await fetch('http://localhost:4000/authorization');
+  return user;
+}

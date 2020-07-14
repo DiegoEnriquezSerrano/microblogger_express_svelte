@@ -21,7 +21,16 @@ const userSchema = new Schema({
     lowercase: true,
     trim: true,
     required: 'Please supply a username',
-  }
+  },
+  displayname: {
+    type: String,
+    trim: true
+  },
+  bio: {
+    type: String,
+    trim: true,
+  },
+  photo: String,
 });
 
 userSchema.plugin(passportLocalMongoose, { usernameField: 'email' });

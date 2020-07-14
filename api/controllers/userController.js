@@ -22,7 +22,6 @@ exports.directoryUsers = async (req, res) => {
 }
 
 exports.validateRegister = (req, res, next) => {
-  console.log(req.body);
   req.sanitizeBody('username');
   req.checkBody('username','You must supply a name!').notEmpty();
   req.checkBody('email', 'That email is not valid!').notEmpty();
@@ -32,7 +31,6 @@ exports.validateRegister = (req, res, next) => {
     gmail_remove_subaddress: false
   });
   req.checkBody('password', 'Password Cannot be Blank!').notEmpty();
-
   const errors = req.validationErrors();
   if (errors) {
     req.flash('error', errors.map(err => err.msg));
