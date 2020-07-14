@@ -35,12 +35,14 @@
       <div class="userNode">
         <div class="userNodeInfo">
           <a class="user_avatar" href="/">
-            <div class="user_img"></div>
+            <div class="user_img">
+              <img src="http://localhost:5000/assets/uploads/{user.photo || 'default.jpg'}" alt="avatar" />
+            </div>
           </a>
           <br>
-          <a class="userName" href="/">{user.username}</a><br>
+          <a class="userName" href="/">{user.displayname || user.username}</a><br>
           <span>@{user.username}</span><br>
-          <p class="userNodeBio"></p>
+          <p class="userNodeBio">{user.bio || ""}</p>
         </div><!--userNodeInfo-->
         <div class="userNodeActions">
           <a class="toggleFollow" href="/">

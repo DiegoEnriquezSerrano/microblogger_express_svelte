@@ -7,10 +7,8 @@ const jimp = require('jimp');
 const uuid = require('uuid');
 
 const multerOptions = {
-  dest: path.join(__dirname, 'temp', 'uploads'),
   storage: multer.memoryStorage(),
   fileFilter(req, file, next) {
-    console.log(file)
     const isPhoto = file.mimetype.startsWith('image/');
     if(isPhoto) {
       next(null, true);
@@ -23,11 +21,7 @@ const multerOptions = {
 exports.upload = multer(multerOptions).single('file');
 
 exports.resize = async (req, res, next) => {
-  if( !req.file ) {
-    next();
-    return;
-  }
-  console.log(req.file)
+  if( !req.file ) { next(); return; }
   const extension = req.file.mimetype.split('/')[1];
   req.body.photo = `${uuid.v4()}.${extension}`;
   const photo = await jimp.read(req.file.buffer);
@@ -38,12 +32,11 @@ exports.resize = async (req, res, next) => {
 
 exports.updateProfile = async (req, res) => {
   const updates = {
-    photo: req.body.photo || null,
     name: req.body.username,
     displayname: req.body.displayname || null,
     bio: req.body.bio || null,
   }
-  console.log(updates)
+  if (req.body.photo) updates.photo = req.body.photo;
   const user = await User.findOneAndUpdate(
     { _id: req.user._id},
     { $set: updates },
