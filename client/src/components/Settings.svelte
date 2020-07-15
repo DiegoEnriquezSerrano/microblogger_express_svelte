@@ -9,11 +9,13 @@
   let userForm = {}
   let body;
   let photo;
-  $: form = userForm;
 
+  $: user = currentUser;
+  $: form = userForm;
   $: pageName = page;
   $: pageNameCapitalized = page[0].toUpperCase() + page.slice(1);
 
+  let dispatch = createEventDispatcher();
 
   let formClick = async (e) => {
     let file = photo;
@@ -26,7 +28,9 @@
 
     await axios.post('/settings', formData)
     .then(response => {
-      console.log(response.data);
+      currentUser = response.data;
+      dispatch('userUpdate', response.data);
+      photo.value = null;
     });
   };
   
@@ -40,7 +44,7 @@
   <div id="settingsContainer">
     {#if page == "settings"}
       <form enctype="multipart/form-data" id="edit_form" method="POST" action="/profile" bind:this={userForm}>
-        <div class="user_img" style="">
+        <div class="user_img" style="background-image: url('http://localhost:5000/assets/uploads/{user.photo || 'default.jpg'}')">
           <div class="row">
             <input type="file" bind:this={photo} name="photo" id="photo" accept="image/gif, image/png, image/jpeg" />
             <label for="photo">
@@ -58,18 +62,18 @@
           </div><!--row-->
         </div><!--user_img-->
         <label for="username" class="label">Username</label>
-        <input class="input" name="username" value="{currentUser.username || null}" required>
+        <input class="input" name="username" value="{user.username || null}" required>
         <label for="displayname" class="label">Display name</label>
-        <input class="input" name="displayname" value="{currentUser.displayname || null}">
+        <input class="input" name="displayname" value="{user.displayname || null}">
         <label for="bio" class="label">Bio</label>
-        <textarea name="bio" class="input">{currentUser.bio || null}</textarea>
+        <textarea name="bio" class="input">{user.bio || null}</textarea>
         <hr>
         <button class="button" type="submit" value="Submit" on:click|preventDefault={formClick}>Save</button>
       </form>
     {:else if page == "account"}
       <form id="edit_form" method="POST" action="/account">
         <label for="email" class="label">Email</label>
-        <input class="input" name="email" value="{currentUser.email}" type="email" required>
+        <input class="input" name="email" value="{user.email}" type="email" required>
         <label for="oldPassword" class="label">Password</label>
         <input class="input" name="oldPassword" type="password" value="">
         <label for="newPassword" class="label">New Password</label>

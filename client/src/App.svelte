@@ -9,20 +9,28 @@ import Settings from "./components/Settings.svelte";
 import Login from "./components/Login.svelte";
 import Navbar from "./components/Navbar.svelte";
 
-let paths;
-let page;
-$: currentUser = user;
-
 export let user = {};
 
 const homeDirectory = window.location.origin;
 
-paths = window.location.href.split(homeDirectory + "/").slice(1);
-page = paths[0];
+let pathList = [
+  'timeline',
+  'drafts',
+  'published',
+  'liked',
+  'directory',
+  'login',
+  'settings',
+  'account'
+]
+
+let paths = window.location.href.split(homeDirectory + "/").slice(1);
+let page = paths[0];
+$: currentUser = user;
+$: currentPage = page;
 
 let loadPage = (e) => {
   page = e.detail;
-  console.log(page)
 }
 
 let authenticated = (e) => {
@@ -35,7 +43,20 @@ onMount(async () => {
   user = await user.text();
   user = JSON.parse(user);
   };
+
+  if (!pathList.find(url => url === currentPage)) {
+  let params = { method: 'GET', headers: { "Content-Type": "application/json" }};
+  await fetch(`/findUser?${currentPage}`, params)
+    .then(response => {
+      if (response.status !== 200) {
+        page = 'login';
+        return;
+      }
+      return response.text()})
+    .then(data => console.log(data))
+  }
 });
+
 
 </script>
 
@@ -59,7 +80,7 @@ onMount(async () => {
 {:else if page == "settings" || page == "account"}
 
   <Navbar {page} on:loadPage={loadPage} />
-  <Settings {page} {currentUser} />
+  <Settings {page} on:userUpdate={authenticated} {currentUser} />
 
 {/if}
 

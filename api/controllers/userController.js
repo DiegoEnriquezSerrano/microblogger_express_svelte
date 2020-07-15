@@ -2,6 +2,7 @@ let mongoose = require("mongoose");
 const User = require("../models/Users");
 const { promisify } = require('es6-promisify');
 const path = require("path");
+const url = require('url');
 
 exports.loginForm = (req, res) => {
   res.statusCode = 400;
@@ -20,6 +21,33 @@ exports.directoryUsers = async (req, res) => {
   const users = await User.find();
   res.send(users);
 }
+
+exports.queryUser = async (req, res) => {
+  let q = url.parse(req.url,  true);
+  const user = await User.find({
+    username: q.search.split('?')[1]
+  });
+  if (user[0] === undefined) {
+    res.statusCode = 404;
+    res.sendFile( path.join(__dirname, "../../client", "public", "index.html"));
+  } else {
+    console.log(user);
+    res.send(user);
+  };
+};
+
+exports.find = async (req, res, next) => {
+  let q = url.parse(req.url,  true);
+  const users = await User.find({
+    username: q.pathname.split('/')[1]
+  });
+  if(users[0] === undefined) {
+    res.statusCode = 404;
+    res.sendFile( path.join(__dirname, "../../client", "public", "index.html"));
+  } else {
+    res.sendFile( path.join(__dirname, "../../client", "public", "index.html"));
+  };
+};
 
 exports.validateRegister = (req, res, next) => {
   req.sanitizeBody('username');

@@ -36,7 +36,7 @@
         <div class="userNodeInfo">
           <a class="user_avatar" href="/">
             <div class="user_img">
-              <img src="http://localhost:5000/assets/uploads/{user.photo || 'default.jpg'}" alt="avatar" />
+              <img src="http://localhost:5000/assets/{user.photo ?  `uploads/${user.photo}` : 'images/profiledefault.jpg'}" alt="avatar" />
             </div>
           </a>
           <br>

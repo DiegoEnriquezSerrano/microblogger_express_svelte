@@ -26,6 +26,6 @@ exports.published = (req, res) => {
 }
 
 exports.liked = (req, res) => {
-  req.session.flash = ''
+  req.session.flash = '';
   res.sendFile( path.join(__dirname, "../../client", "public", "index.html"));
 }

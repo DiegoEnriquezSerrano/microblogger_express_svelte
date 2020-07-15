@@ -4,22 +4,22 @@ const postController = require("../controllers/postController");
 const userController = require("../controllers/userController");
 const authController = require("../controllers/authController");
 const settingsController = require("../controllers/settingsController");
+const url = require('url');
 const passport = require('passport');
 const path = require("path");
 const { catchErrors } = require('../handlers/errorHandlers');
-
-router.get("/", authController.isLoggedIn, postController.indexPage);
 
 router.get("/login", userController.loginForm);
 
 router.get("/timeline", authController.isLoggedIn, postController.timeline);
 router.get("/drafts", authController.isLoggedIn, postController.drafts);
 router.get("/published", authController.isLoggedIn, postController.published);
-router.get("/liked", authController.isLoggedIn, postController.liked);
+router.get("/liked", postController.liked);
 
 
 router.get("/directory", authController.isLoggedIn, userController.directory);
 router.get("/getUsers", authController.isLoggedIn, userController.directoryUsers);
+router.get("/findUser", userController.queryUser);
 
 router.get("/settings", authController.isLoggedIn, settingsController.profile);
 router.get("/account", authController.isLoggedIn, settingsController.account);
@@ -60,5 +60,11 @@ router.post("/register",
 );
 
 router.get("/logout", authController.logout);
+
+
+router.get("/*", userController.find);
+
+
+router.get("/", authController.isLoggedIn, postController.indexPage);
 
 module.exports = router;

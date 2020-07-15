@@ -1,25 +1,22 @@
 let mongoose = require("mongoose");
 let postSchema = mongoose.Schema({
   title: {
-    type: String,
-    required: true
+    type: String
   },
-  content: {
+  body: {
     type: String,
-    required: true
+    required: 'Your post cannot be empty!'
   },
-  category: {
-    type: String,
-    required: true
-  },
-  author: {
-    type: String,
-    required: true
+  user: {
+    type: mongoose.Schema.ObjectId,
+    ref: 'User',
+    required: 'You must supply an author!'
   },
   created: {
     type: Date,
     default: Date.now()
-  }
+  },
+
 });
 var Post = mongoose.model("Post", postSchema);
 module.exports = Post;
