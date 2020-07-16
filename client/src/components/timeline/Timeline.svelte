@@ -2,8 +2,16 @@
 
 let post;
 
-let sendPost = () => {
-  console.log(post.value);
+let sendPost = async () => {
+  let body = {
+    body: post.value,
+  };
+  let params = {
+    method: 'POST',
+    body: JSON.stringify(body), 
+    headers: { "Content-Type": "application/json" }
+  };
+  await fetch('/timeline', params);
 }
 
 </script>
