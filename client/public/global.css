@@ -134,7 +134,7 @@ button:hover, a:hover {
   box-shadow: -1px 48px 4px -2px rgb(0,0,0);
   transition: margin-left 0.5s;
 	z-index: 5;
-	left: calc(100vw - 2.5rem);
+	left: calc(100% - 2.5rem);
 }
 
 #sectionsContainer.expanded {

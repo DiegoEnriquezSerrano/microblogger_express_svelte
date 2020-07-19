@@ -1,5 +1,9 @@
 <script>
 
+import Posts from './Posts.svelte';
+
+export let posts = [];
+
 let post;
 
 let sendPost = async () => {
@@ -36,9 +40,21 @@ let sendPost = async () => {
       <button id="postPreview">Preview</button>
     </div><!--postActions-->
   </div><!--postForm-->
+
+<Posts {posts} />
+  
 </div><!--postContainer-->
 
 <style>
+
+#postContainer {
+  padding: 10px;
+  width: 100%;
+  display: grid;
+  grid-auto-flow: row;
+  grid-gap: 15px;
+  align-content: start;
+}
 
 .draftSlider {
   grid-area: slider;
@@ -114,11 +130,6 @@ let sendPost = async () => {
   border-radius: 50%;
 }
 
-#postContainer {
-  padding: 20px;
-  width: 100%;
-}
-
 .postForm {
   display: grid;
   justify-items: center;
@@ -191,6 +202,21 @@ let sendPost = async () => {
   background-color: var(--cta-sec);
   color: var(--detail);
   border: 1px solid var(--bg);
+}
+
+#loginAlert,
+#postSuccess,
+#postFail {
+  display: none;
+}
+
+.post_deleted {
+  display: block! important;
+  width: 80%;
+  background-color: var(--navy);
+  padding: 15px;
+  border-radius: 15px;
+  border: 1px solid var(--lightblue);
 }
       
 </style>

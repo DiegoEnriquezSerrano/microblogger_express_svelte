@@ -12,9 +12,12 @@ const { catchErrors } = require('../handlers/errorHandlers');
 
 router.get("/timeline", authController.isLoggedIn, postController.timeline);
 router.post("/timeline", authController.isLoggedIn, postController.createPost);
+router.get("/timelinePosts", postController.timelinePosts);
+
+router.get("/published", authController.isLoggedIn, postController.published);
+router.get("/publishedPosts", authController.isLoggedIn, postController.publishedPosts);
 
 router.get("/drafts", authController.isLoggedIn, postController.drafts);
-router.get("/published", authController.isLoggedIn, postController.published);
 router.get("/liked", postController.liked);
 
 router.get("/directory", authController.isLoggedIn, userController.directory);
@@ -62,9 +65,7 @@ router.post("/register",
 
 router.get("/logout", authController.logout);
 
-
 router.get("/*", userController.find);
-
 
 router.get("/", authController.isLoggedIn, postController.indexPage);
 

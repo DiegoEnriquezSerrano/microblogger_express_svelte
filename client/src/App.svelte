@@ -66,7 +66,7 @@ onMount(async () => {
   page == "timeline" || page == "drafts" || page == "published" || page == "liked" }
 
   <Navbar {page} on:loadPage={loadPage} />
-  <Index {page} />
+  <Index {page} user={currentUser} />
 
 {:else if page == "directory"}
 
