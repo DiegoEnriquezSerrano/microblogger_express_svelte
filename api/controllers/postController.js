@@ -66,3 +66,15 @@ exports.createPost = async (req, res) => {
   await post.save();
   res.send(post);
 }
+
+exports.relay = async (req, res) => {
+  user = await Users.findOne({
+    email: req.session.passport.user
+  });
+  const post = new Post({
+    user: user._id,
+    body: req.body.body
+  });
+  await post.save();
+  res.send(post);
+}

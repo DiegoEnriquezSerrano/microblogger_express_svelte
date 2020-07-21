@@ -14,6 +14,8 @@ router.get("/timeline", authController.isLoggedIn, postController.timeline);
 router.post("/timeline", authController.isLoggedIn, postController.createPost);
 router.get("/timelinePosts", postController.timelinePosts);
 
+router.post("/relay", authController.isLoggedIn, postController.relay);
+
 router.get("/published", authController.isLoggedIn, postController.published);
 router.get("/publishedPosts", authController.isLoggedIn, postController.publishedPosts);
 

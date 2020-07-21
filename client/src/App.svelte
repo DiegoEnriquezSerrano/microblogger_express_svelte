@@ -42,6 +42,7 @@ onMount(async () => {
   if (user.status == 200) {
   user = await user.text();
   user = JSON.parse(user);
+  console.log(user)
   };
 
   if (!pathList.find(url => url === currentPage)) {
@@ -57,7 +58,6 @@ onMount(async () => {
   }
 });
 
-
 </script>
 
 <Sections page={page} on:loadPage={loadPage} />
@@ -66,7 +66,7 @@ onMount(async () => {
   page == "timeline" || page == "drafts" || page == "published" || page == "liked" }
 
   <Navbar {page} on:loadPage={loadPage} />
-  <Index {page} user={currentUser} />
+  <Index {page} {currentUser} />
 
 {:else if page == "directory"}
 

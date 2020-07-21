@@ -16,7 +16,10 @@ let postSchema = mongoose.Schema({
     type: Date,
     default: Date.now()
   },
-
+  relay_from: {
+    type: mongoose.Schema.ObjectId,
+    ref: 'Post'
+  }
 });
 var Post = mongoose.model("Post", postSchema);
 module.exports = Post;

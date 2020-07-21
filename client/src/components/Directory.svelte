@@ -34,8 +34,8 @@
     {#each users as user}
       <div class="userNode">
         <div class="userNodeInfo">
-          <a class="user_avatar" href="/">
-            <div class="user_img">
+          <a class="user-avatar" href="/">
+            <div class="user-img">
               <img src="http://localhost:5000/assets/{user.photo ?  `uploads/${user.photo}` : 'images/profiledefault.jpg'}" alt="avatar" />
             </div>
           </a>
@@ -45,7 +45,7 @@
           <p class="userNodeBio">{user.bio || ""}</p>
         </div><!--userNodeInfo-->
         <div class="userNodeActions">
-          <a class="toggleFollow" href="/">
+          <a class="toggle-follow" href="/">
             <svg class="icon" width="20px" height="22px" viewBox="0 0 20 22" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
               <title>follow</title>
               <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
@@ -165,7 +165,7 @@
   border-radius: 50px;
 }
 
-.user_img {
+.user-img {
   display: inline-block;
   max-width: 6rem;
   max-height: 6rem;

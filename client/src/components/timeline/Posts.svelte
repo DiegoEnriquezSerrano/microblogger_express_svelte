@@ -1,29 +1,38 @@
 <script>
 
+import { onMount } from 'svelte';
+
 export let posts;
+export let currentUser;
+
+$: user = currentUser;
+
+let relayPost = (post) => {
+  console.log(post);
+}
 
 </script>
 
   {#each posts as post}
     <div class="post" data-postID="{post._id}">
-      <div class="post_header">
-        <a class="user_avatar" href="http://localhost:4000/{post.user.username}">
-          <div class="user_img" style="">
+      <div class="post-header">
+        <a class="user-avatar" href="http://localhost:4000/{post.user.username}">
+          <div class="user-img" style="">
             <img src="http://localhost:5000/assets/{post.user.photo ? `uploads/${post.user.photo}` : 'images/profiledefault.jpg'}" alt="pfp">
           </div>
         </a>
-        <p class="post_details_box">
+        <p class="post-details-box">
           <a class="userlink" href="http://localhost:4000/{post.user.username}">{post.user.displayname || post.user.username}</a>
           @{post.user.username}<br>
           <span class="time">{post.created}</span>
-          <a class="postArrow" href="http://localhost:4000/post/{post._id}">➤</a>
-        </p><!--post_details_box-->
-      </div><!--post_header-->
+          <a class="post-arrow" href="http://localhost:4000/post/{post._id}">➤</a>
+        </p><!--post-details-box-->
+      </div><!--post-header-->
       <div class="postContent">
-        <p class="postBody">{post.body}</p>
+        <p class="post-body">{post.body}</p>
         
       </div><!--postContent-->
-      <div class="post_interaction_buttons">
+      <div class="post-interaction-buttons">
         <button class="reply_post_buttom">
           <svg width="21px" height="16px" viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
             <title>Reply</title>
@@ -36,7 +45,7 @@ export let posts;
             </g>
           </svg>
         </button>
-        <button class="relay_post_button">
+        <button class="relay_post_button" on:click={relayPost(post)}>
           <svg width="21px" height="16px" viewBox="0 0 20 27" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
             <title>Relay</title>
             <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
@@ -47,20 +56,36 @@ export let posts;
               </g>
             </g>
           </svg>
-        </button> 
-        <button class="delete_post_button">
-          <svg width="21px" height="16px" viewBox="0 0 21 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-            <title>Delete</title>
-            <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-              <g transform="translate(-179.000000, -360.000000)" fill="#59617d">
-                <g transform="translate(56.000000, 160.000000)">
-                  <path d="M130.35,216 L132.45,216 L132.45,208 L130.35,208 L130.35,216 Z M134.55,216 L136.65,216 L136.65,208 L134.55,208 L134.55,216 Z M128.25,218 L138.75,218 L138.75,206 L128.25,206 L128.25,218 Z M130.35,204 L136.65,204 L136.65,202 L130.35,202 L130.35,204 Z M138.75,204 L138.75,200 L128.25,200 L128.25,204 L123,204 L123,206 L126.15,206 L126.15,220 L140.85,220 L140.85,206 L144,206 L144,204 L138.75,204 Z" id="delete-[#1487]"></path>
+        </button>
+        {#if user._id === post.user._id}
+          <button class="delete-post-button">
+            <svg width="21px" height="16px" viewBox="0 0 21 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+              <title>Delete</title>
+              <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                <g transform="translate(-179.000000, -360.000000)" fill="#59617d">
+                  <g transform="translate(56.000000, 160.000000)">
+                    <path d="M130.35,216 L132.45,216 L132.45,208 L130.35,208 L130.35,216 Z M134.55,216 L136.65,216 L136.65,208 L134.55,208 L134.55,216 Z M128.25,218 L138.75,218 L138.75,206 L128.25,206 L128.25,218 Z M130.35,204 L136.65,204 L136.65,202 L130.35,202 L130.35,204 Z M138.75,204 L138.75,200 L128.25,200 L128.25,204 L123,204 L123,206 L126.15,206 L126.15,220 L140.85,220 L140.85,206 L144,206 L144,204 L138.75,204 Z"></path>
+                  </g>
                 </g>
               </g>
-            </g>
-          </svg>
-        </button>
-      </div><!--post_interaction_buttons-->
+            </svg>
+          </button>
+        {:else}
+          <button class="like_post_button">
+            <svg width="21px" height="16px" viewBox="0 0 21 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+              <title>Not Liked</title>
+              <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                <g transform="translate(-99.000000, -362.000000)" fill="#59617d">
+                  <g transform="translate(56.000000, 160.000000)">
+                    <path d="M55.5929644,215.348992 C55.0175653,215.814817 54.2783665,216.071721 53.5108177,216.071721 C52.7443189,216.071721 52.0030201,215.815817 51.4045211,215.334997 C47.6308271,212.307129 45.2284309,210.70073 45.1034811,207.405962 C44.9722313,203.919267 48.9832249,202.644743 51.442321,205.509672 C51.9400202,206.088455 52.687619,206.420331 53.4940177,206.420331 C54.3077664,206.420331 55.0606152,206.084457 55.5593644,205.498676 C57.9649106,202.67973 62.083004,203.880281 61.8950543,207.507924 C61.7270546,210.734717 59.2322586,212.401094 55.5929644,215.348992 M53.9066671,204.31012 C53.8037672,204.431075 53.6483675,204.492052 53.4940177,204.492052 C53.342818,204.492052 53.1926682,204.433074 53.0918684,204.316118 C49.3717243,199.982739 42.8029348,202.140932 43.0045345,207.472937 C43.1651842,211.71635 46.3235792,213.819564 50.0426732,216.803448 C51.0370217,217.601149 52.2739197,218 53.5108177,218 C54.7508657,218 55.9898637,217.59915 56.9821122,216.795451 C60.6602563,213.815565 63.7787513,211.726346 63.991901,207.59889 C64.2754005,202.147929 57.6173611,199.958748 53.9066671,204.31012"></path>
+                  </g>
+                </g>
+              </g>
+            </svg>
+          </button>
+        {/if}
+
+      </div><!--post-interaction-buttons-->
     </div><!--post-->
   {/each}
 
@@ -96,7 +121,7 @@ export let posts;
   color: var(--detail);
 }
 
-.post_header {
+.post-header {
   display: grid;
   grid-auto-flow: column;
   grid-template-columns: 55px 1fr;
@@ -107,7 +132,7 @@ export let posts;
   vertical-align: text-bottom;
 }
 
-.post_header p {
+.post-header p {
   padding-left: 10px;
   font-size: 0.9rem;
   line-height: 1.15rem;
@@ -122,13 +147,13 @@ export let posts;
   font-family: 'Libre Franklin Bold', 'Monaco', monospace
 }
 
-a.user_avatar img {
+a.user-avatar img {
   max-width: 100%;
   height: auto;
   border-radius: 100%;
 }
 
-.user_img {
+.user-img {
   display: inline-block;
   max-width: 100%;
   width: 100%;
@@ -157,23 +182,23 @@ a.userlink {
   font-size: 0.9rem;
 }
 
-.post_interaction_buttons button svg g {
+.post-interaction-buttons button svg g {
   fill: var(--fill);
 }
 
-.delete_post_button,
-.toggleFollow {
+.delete-post-button,
+.toggle-follow {
   letter-spacing: 0.10rem;
   font-size: 0.8rem;
   color: var(--detail);
 }
 
-.toggleFollow img {
+.toggle-follow img {
   height: 25px !important;
   width: 25px !important;
 }
 
-.post_details_box {
+.post-details-box {
   word-wrap: break-word;
   overflow-wrap: break-word;
   word-break: break-all;
@@ -181,7 +206,7 @@ a.userlink {
   text-shadow: 1px -1px 2px rgb(0,0,0);
 }
 
-.postArrow {
+.post-arrow {
   font-size: 1.6em !important;
   vertical-align: bottom;
   display: inline-block;
@@ -190,23 +215,23 @@ a.userlink {
   color: var(--detail)! important;
 }
 
-.post_details_box {
+.post-details-box {
   font-size: 0.9rem;
   line-height: 1.0rem;
 }
 
-.post_interaction_buttons {
+.post-interaction-buttons {
   display: grid;
   grid-auto-flow: column;
   justify-content: space-evenly;
 }
 
-.post_interaction_buttons button {
+.post-interaction-buttons button {
   border-radius: 10px;
   background-color: transparent;
 }
 
-.post_interaction_buttons button:hover svg g {
+.post-interaction-buttons button:hover svg g {
   fill: var(--cta);
 }
 
