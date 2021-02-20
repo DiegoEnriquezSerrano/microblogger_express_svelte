@@ -1,46 +1,23 @@
-<script>
+<script >
 
-import { createEventDispatcher } from 'svelte';
-
-let dispatch = createEventDispatcher();
-
-let homeModule;
-let loginActive;
+let login = true;
 let username;
 let email;
 let password;
-let active = false;
-let url;
-let params = {};
-let body = {};
 
 let loginToggle = (e) => {
-  if (loginActive.value == 1) {
-    loginActive.value = 0;
-    active = true;
-  } else {
-    loginActive.value = 1;
-    active = false;
+  login ? login = false : login = true;
   }
-};
 
-let authenticate = async (e) => {
-  e.target.blur();
-  body = {
-    username: username.value,
-    password: password.value,
-    email: email.value,
-  }
-  if (body.username != "" && body.email != "" && body.password != "" && active == true) {
-    let url = "http://localhost:4000/register";
+let register = async (e) => {
+  if (username != "" && email != "" && password != "" && login == true) {
     let params = {
       method: 'POST',
       credentials: 'include',
-      body: JSON.stringify(body), 
+      body: JSON.stringify({ username, email, password }), 
       headers: { "Content-Type": "application/json" }
     };
-
-    await fetch(url, params)
+    await fetch("http://localhost:4000/register", params)
     .then(async response => {
       if (response.status === 201) {
         console.log(await response.text());
@@ -51,18 +28,15 @@ let authenticate = async (e) => {
   };
 };
 
-let login = async (e) => {
-  e.target.blur();
-  body.password = password.value;
-  body.email = email.value;
-  if (body.email != "" && body.password != "" && active == false) {
-    let url = "http://localhost:4000/login";
+let authenticate = async (e) => {
+  if (email != "" && password != "" && login == false) {
     let params = {
       method: 'POST',
-      body: JSON.stringify(body), 
+      credentials: 'include',
+      body: JSON.stringify({ password, email }), 
       headers: { "Content-Type": "application/json" }
     };
-    await fetch(url, params)
+    await fetch("http://localhost:4000/login", params)
     .then(async response => {
       if (response.status === 201) {
         console.log(await response.text());
@@ -87,20 +61,20 @@ let login = async (e) => {
       </a>
     </div><!--theLink-->
     <div id="auth_box">
-      <form method="POST" action="/login">
+      <form>
         <div id="auth_box_bod">
-          <input type="hidden" name="loginActive" value="1" bind:this={loginActive}>
-          <input type="email" name="email" placeholder="Email address" bind:this={email}>
-          <input type="password" name="password" placeholder="Password" bind:this={password}>
-          {#if active == true}
-          <input type="text" name="username" placeholder="Username" bind:this={username}>
+          <input type="hidden" name="login" bind:value={login}>
+          <input type="email" name="email" placeholder="Email address" bind:value={email}>
+          <input type="password" name="password" placeholder="Password" bind:value={password}>
+          {#if login == true}
+          <input type="text" name="username" placeholder="Username" bind:value={username}>
           {/if}
         </div><!--'auth_box_bod'-->
       </form>
-      {#if active == true}
-        <button class="button" on:focus={authenticate}>Register</button>
+      {#if login == true}
+        <button class="button" on:click={register}>Register</button>
       {:else}
-        <button class="button" on:click={login}>Login</button>
+        <button class="button" on:click={authenticate}>Login</button>
       {/if}
       <div id="auth_box_foot">
         <p>New user? <a id="toggle_auth_box_login" on:click={loginToggle}>Create an account.</a></p>
