@@ -44,6 +44,7 @@ router.get("/account", authController.isLoggedIn, settingsController.account);
 
 router.get("/login", userController.loginForm);
 router.post("/register", authController.register);
+router.post("/login", catchErrors(authController.login));
 
 // router.post("/register",
 //   userController.validateRegister,

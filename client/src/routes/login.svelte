@@ -2,8 +2,6 @@
 
 import { createEventDispatcher } from 'svelte';
 
-export let user = {};
-
 let dispatch = createEventDispatcher();
 
 let homeModule;
@@ -43,10 +41,12 @@ let authenticate = async (e) => {
     };
 
     await fetch(url, params)
-    .then(response => {return response.text()})
-    .then(data =>  {
-      let res = JSON.parse(data);
-      console.log(res);
+    .then(async response => {
+      if (response.status === 201) {
+        console.log(await response.text());
+      } else {
+        console.error(await response.text());
+      }
     });
   };
 };
@@ -62,7 +62,14 @@ let login = async (e) => {
       body: JSON.stringify(body), 
       headers: { "Content-Type": "application/json" }
     };
-    fetch(url, params);
+    await fetch(url, params)
+    .then(async response => {
+      if (response.status === 201) {
+        console.log(await response.text());
+      } else {
+        console.error(await response.text());
+      }
+    });
   };
 };
 
