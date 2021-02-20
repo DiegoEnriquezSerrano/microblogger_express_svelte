@@ -1,11 +1,11 @@
 let mongoose = require("mongoose");
+
 let postSchema = mongoose.Schema({
   title: {
     type: String
   },
   body: {
-    type: String,
-    required: 'Your post cannot be empty!'
+    type: String
   },
   user: {
     type: mongoose.Schema.ObjectId,
@@ -16,9 +16,13 @@ let postSchema = mongoose.Schema({
     type: Date,
     default: Date.now()
   },
-  relay_from: {
+  relay_from_user: {
     type: mongoose.Schema.ObjectId,
-    ref: 'Post'
+    ref: 'User',
+  },
+  relay_from_post: {
+    type: mongoose.Schema.ObjectId,
+    ref: 'Post',
   }
 });
 var Post = mongoose.model("Post", postSchema);

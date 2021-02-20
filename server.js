@@ -16,12 +16,12 @@ const config = require("./config/db");
 const helpers = require('./helpers');
 const errorHandlers = require('./api/handlers/errorHandlers');
 const blog = require("./api/routes/routes");
-require('./api/handlers/passport');
 
 const app = express();
 
 //register express validator
 app.use(expressValidator());
+
 
 // Sessions allow us to store data on visitors from request to request
 // This keeps users logged in and allows us to send flash messages
@@ -58,7 +58,8 @@ mongoose
   });
   
 //registering cors
-app.use(cors())
+app.use(cors({ origin: 'http://localhost:5000' , credentials :  true }))
+app.use(cookieParser());
 
 //configure body parser
 app.use(bodyParser.urlencoded({ extended: false }));

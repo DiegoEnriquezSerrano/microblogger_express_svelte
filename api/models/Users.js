@@ -1,10 +1,9 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 mongoose.Promise = global.Promise;
-const md5 = require("md5");
+const bcrypt = require("bcrypt");
 const validator = require("validator");
 const mongodbErrorHandler = require("mongoose-mongodb-errors");
-const passportLocalMongoose = require("passport-local-mongoose");
 
 const userSchema = new Schema({
   email: {
@@ -22,6 +21,10 @@ const userSchema = new Schema({
     trim: true,
     required: 'Please supply a username',
   },
+  password: {
+    type: String,
+    required: 'Please supply a password',
+  },
   displayname: {
     type: String,
     trim: true
@@ -33,7 +36,34 @@ const userSchema = new Schema({
   photo: String,
 });
 
-userSchema.plugin(passportLocalMongoose, { usernameField: 'email' });
+userSchema.pre("save", function (next) {
+  const user = this;
+  if (this.isModified("password") || this.isNew) {
+    bcrypt.genSalt(10, function (saltError, salt) {
+      if (saltError) { return next(saltError) }
+      else {
+        bcrypt.hash(user.password, salt, function(hashError, hash) {
+          if (hashError) return next(hashError);
+          user.password = hash;
+          next();
+        });
+      }
+    })
+  } else {
+    return next()
+  }
+});
+
+userSchema.methods.comparePassword = function(password, callback) {
+  bcrypt.compare(password, this.password, function(error, isMatch) {
+    if (error) {
+      return callback(error)
+    } else {
+      callback(null, isMatch)
+    }
+  })
+}
+
 userSchema.plugin(mongodbErrorHandler);
 
 module.exports = mongoose.model('User', userSchema);

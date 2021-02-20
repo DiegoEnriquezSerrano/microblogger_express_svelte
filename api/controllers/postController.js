@@ -2,7 +2,7 @@ let mongoose = require("mongoose");
 const path = require("path");
 const Users = require("../models/Users");
 const Post = require("../models/Post");
-const { replaceOne } = require("../models/Post");
+const { send } = require("process");
 
 exports.indexPage = async (req, res) => {
   if (req.session.passport.user != null) {
@@ -18,14 +18,31 @@ exports.timeline = (req, res) => {
   res.sendFile( path.join(__dirname, "../../client", "public", "index.html"));
 }
 
-exports.timelinePosts = async (req, res, next) => {
+exports.getTimelinePosts = async (req, res, next) => {
   const posts = await Post.aggregate([
     { $lookup: { from: "users", localField: "user", foreignField: "_id", as: "user" } },
     { $unwind: "$user" },
-    { $project: { "user.hash": 0, "user.salt": 0, "user.email": 0 } }
+    { $project: { "user.hash": 0, "user.salt": 0, "user.email": 0 } },
   ]).sort( { created: -1 } );
-  res.send(posts);
+  req.posts = posts;
+  next();
 };
+
+exports.timelineRelays = async (req, res, next ) => {
+  const posts = req.posts;
+  posts.forEach( async post => {
+    if( post.relay_from_post != null ) {
+      post.relay_from_post = await Post.findById(post.relay_from_post);
+      console.log(post, 'post')
+    };
+  });
+  req.posts = await posts;
+  next();
+};
+
+exports.timelineRelayUsers = async ( req, res ) => {
+  res.send(req.posts)
+}
 
 exports.published = (req, res) => {
   req.session.flash = '';
@@ -59,6 +76,7 @@ exports.createPost = async (req, res) => {
   user = await Users.findOne({
     email: req.session.passport.user
   });
+
   const post = new Post({
     user: user._id,
     body: req.body.body
@@ -73,7 +91,9 @@ exports.relay = async (req, res) => {
   });
   const post = new Post({
     user: user._id,
-    body: req.body.body
+    body: req.body.body,
+    relay_from_user: req.body.relay_from.user,
+    relay_from_post: req.body.relay_from.post
   });
   await post.save();
   res.send(post);

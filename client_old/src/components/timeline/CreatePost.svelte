@@ -10,7 +10,9 @@ let modalToggle = (e) => {
 };
 
 let sendPost = async () => {
-  let body = { body: post.value };
+  let body = {
+    body: post.value,
+  };
   let params = {
     method: 'POST',
     body: JSON.stringify(body), 

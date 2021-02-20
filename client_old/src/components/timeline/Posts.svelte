@@ -7,8 +7,22 @@ export let currentUser;
 
 $: user = currentUser;
 
-let relayPost = (post) => {
+let relayPost = async (post) => {
   console.log(post);
+  let body = {
+    body: null,
+    relay_from: {
+      post: post._id,
+      user: post.user._id
+    }
+  }
+  let params = {
+    method: 'POST',
+    body: JSON.stringify(body), 
+    headers: { "Content-Type": "application/json" }
+  };
+  await fetch('/relay', params);
+  console.log(params)
 }
 
 </script>

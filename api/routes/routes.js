@@ -12,7 +12,11 @@ const { catchErrors } = require('../handlers/errorHandlers');
 
 router.get("/timeline", authController.isLoggedIn, postController.timeline);
 router.post("/timeline", authController.isLoggedIn, postController.createPost);
-router.get("/timelinePosts", postController.timelinePosts);
+router.get("/timelinePosts",
+  postController.getTimelinePosts,
+  postController.timelineRelays,
+  postController.timelineRelayUsers
+);
 
 router.post("/relay", authController.isLoggedIn, postController.relay);
 
@@ -39,31 +43,24 @@ router.post("/settings",
 router.get("/account", authController.isLoggedIn, settingsController.account);
 
 router.get("/login", userController.loginForm);
-router.post('/login',
-  passport.authenticate('local'),
-  function(req, res) {
-    res.send({
-      response: { type: 'success', name: 'UserLogin', message: 'Successfully authenticated. Welcome back!' }
-    });
-  },
-);
+router.post("/register", authController.register);
 
-router.post("/register",
-  userController.validateRegister,
-  userController.register,
-  function(req, res, next) {
-    passport.authenticate('local', function(err, user, info) {
-      if (err) { return next(err); }
-      if (!user) { return res.redirect('/login'); }
-      req.logIn(user, function(err) {
-        if (err) { return next(err); }
-        res.send({
-          response: { type: 'success', name: 'UserRegister', message: "Successfully registered. Welcome!" }
-        });
-      });
-    })(req, res);
-  },
-);
+// router.post("/register",
+//   userController.validateRegister,
+//   userController.register,
+//   function(req, res, next) {
+//     passport.authenticate('local', function(err, user, info) {
+//       if (err) { return next(err); }
+//       if (!user) { return res.redirect('/login'); }
+//       req.logIn(user, function(err) {
+//         if (err) { return next(err); }
+//         res.send({
+//           response: { type: 'success', name: 'UserRegister', message: "Successfully registered. Welcome!" }
+//         });
+//       });
+//     })(req, res);
+//   },
+// );
 
 router.get("/logout", authController.logout);
 
