@@ -40,11 +40,11 @@
   <title>Microblogger | {pageNameCapitalized}</title>
 </svelte:head>
 
-<div id="settingsModule">
-  <div id="settingsContainer">
+<div id="settings-module">
+  <div id="settings-container">
     {#if page == "settings"}
-      <form enctype="multipart/form-data" id="edit_form" method="POST" action="/profile" bind:this={userForm}>
-        <div class="user_img" style="background-image: url('http://localhost:5000/assets/uploads/{user.photo || 'default.jpg'}')">
+      <form enctype="multipart/form-data" id="edit-form" method="POST" action="/profile" bind:this={userForm}>
+        <div class="user-img" style="background-image: url('http://localhost:5000/assets/uploads/{user.photo || 'default.jpg'}')">
           <div class="row">
             <input type="file" bind:this={photo} name="photo" id="photo" accept="image/gif, image/png, image/jpeg" />
             <label for="photo">
@@ -60,7 +60,7 @@
               </svg>
             </label>
           </div><!--row-->
-        </div><!--user_img-->
+        </div><!--user-img-->
         <label for="username" class="label">Username</label>
         <input class="input" name="username" value="{user.username || null}" required>
         <label for="displayname" class="label">Display name</label>
@@ -71,7 +71,7 @@
         <button class="button" type="submit" value="Submit" on:click|preventDefault={formClick}>Save</button>
       </form>
     {:else if page == "account"}
-      <form id="edit_form" method="POST" action="/account">
+      <form id="edit-form" method="POST" action="/account">
         <label for="email" class="label">Email</label>
         <input class="input" name="email" value="{user.email}" type="email" required>
         <label for="oldPassword" class="label">Password</label>
@@ -84,19 +84,19 @@
         <button class="button" type="submit" value="Submit" id="editFormSubmit">Save</button>
       </form>
     {/if}
-  </div><!--settingsContainer-->
-</div><!--settingsModule-->
+  </div><!--settings-container-->
+</div><!--settings-module-->
 
 
 <style>
 
-#settingsModule {
+#settings-module {
   display: grid;
   padding: 65px 15px 10px 15px;
   width: calc(100vw - 2.5rem)
 }
 
-#settingsContainer {
+#settings-container {
   min-width: 250px;
   max-width: 700px;
   width: 100%;
@@ -107,13 +107,13 @@
   align-items: center;
 }
 
-#edit_form {
+#edit-form {
   text-align: left;
   display: grid;
   align-content: stretch
 }
 
-#edit_form hr {
+#edit-form hr {
   border: 0;
   height: 2px;
   background-color: var(--bg);
@@ -145,7 +145,7 @@
   border: 1px solid var(--orange);
 }
 
-.user_img {
+.user-img {
   display: inline-block;
   width: 100px;
   height: 100px;
@@ -153,6 +153,8 @@
   background-size: cover;
   background-position: center; 
   margin: 20px 5px 0px;
+  justify-self: center;
+
 }
 
 [type="file"] {
@@ -176,7 +178,7 @@
   padding: 8px;
   transition: background-color 0.3s;
   position: absolute;
-  margin-left: 25px;
+  margin-left: 75px;
 }
  
 [type="file"]:focus + label,

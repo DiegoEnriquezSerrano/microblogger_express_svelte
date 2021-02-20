@@ -1,0 +1,218 @@
+/* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video, input, textarea {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+    vertical-align: baseline;
+    box-sizing: border-box;
+}
+
+hr {margin:0}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after, q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+/*////////////////////////////////////////////////
+//////////////////////////////////////////////////
+//////////////////////////////////Default Styles*/
+
+
+:root {
+  --bg:      rgb(39,39,39);     /*done*/
+  --segment: rgb(47,47,47);     /*done*/
+  --fg:      rgb(58,58,58);     /*done*/
+  --cta-sec: rgb(66,66,66);     /*done*/
+  --hilite:  rgb(46,58,89);
+  --fill:    rgb(112,112,112);  /*done*/
+  --detail:  rgb(208,208,208);  /*done*/
+  --copy:    rgb(255,255,255);  /*done*/
+  --cta:     rgb(240,84,76);    /*done*/
+  --cta2:    rgb(255,98,108);   /*done*/
+  --orange:  rgb(241, 93, 34);
+}
+
+html {
+  display: block;
+  height: 100%;
+  overflow: auto;
+}
+
+body {
+  background-color: var(--bg);
+  font: normal normal normal 1.0rem/1.2rem  'Arial', 'sans-serif';
+  display: block;
+  min-height: 100vh;
+}
+
+button {
+  font: normal normal bold 1.0rem/1.2rem 'Arial', 'sans-serif';
+  background-color: var(--cta);
+  color: var(--copy);
+  border: 0
+}
+
+button:focus {outline: 0;}
+
+a {
+  text-decoration: none;
+  transition: all 0.2s;
+  font: inherit;
+  font-weight: bold;
+}
+
+button:hover, a:hover {
+  cursor: pointer;
+}
+
+.button {
+  min-width: 50px;
+  padding: 5px 20px;
+  border-radius: 15px;
+  border: 2px solid var(--cta);
+  transition: all ease-out 0.3s;
+  font-weight: bold;
+  font-family: 'Arial';
+}
+
+.button.secondary {
+  border-color: var(--bg);
+  background-color: var(--cta-sec);
+  color: var(--detail);
+}
+
+.button:hover {
+  border: 2px solid var(--orange);
+  cursor: pointer;
+}
+
+.container {
+  width: 100%;
+  padding: 0;
+}
+
+.close {
+  background-color: transparent;
+  padding: 0px;
+}
+
+.close svg.icon {
+  height: 16px;
+  width: 16px;
+}
+
+#sectionsContainer {
+  height: 100vh;
+  width: 75vw;
+  overflow-y: auto;
+  position: fixed;
+  background-color: var(--segment);
+  padding-top: 48px;
+  box-shadow: -1px 48px 4px -2px rgb(0,0,0);
+  transition: margin-left 0.5s;
+	z-index: 5;
+	left: calc(100% - 2.5rem);
+}
+
+#sectionsContainer.expanded {
+  /* transform: translateX(-64vw); */
+  margin-left: -64vw;
+  box-shadow: -1px 0 4px -1px rgb(0,0,0);
+}
+
+.sectionLink {
+  display: grid;
+  grid-auto-flow: column;
+  justify-content: start;
+  align-items: center;
+  grid-gap: 5px;
+  background-color: transparent;
+  padding: 1.2rem 0.5rem;
+  color: var(--detail);
+  text-shadow: -1px 1px 1px rgb(10,10,10);
+  font-weight: bold;
+  font-size: 1.1em;
+  grid-template-columns: 11vw 1fr;
+  align-content: center;
+  font-weight: bold;
+}
+
+.sectionLink .icon g {
+  fill: var(--fill);
+}
+
+.sectionLink:hover {
+  background-color: var(--fg);
+  color: var(--cta);
+}
+
+.sectionLink:hover g {
+  fill: var(--cta);
+}
+
+#sections_expander {
+  overflow: hidden;
+  position: fixed! important;
+  padding: 0.75rem 0.5rem;
+  top: 0;
+  border: 0;
+}
+
+#sections_expander .filler {
+  display: block;
+  min-width: 64vw;
+  height: 100%
+}
+
+.sectionIcon {
+  background-size: 25px 25px;
+  display: inline-block;
+  width: 25px;
+  min-height: 25px;
+  margin-right: 10px;
+}
+
+svg.icon {
+  width: 1.6rem;
+  height: 1.6rem;
+}
+
+span[data-icon="music"] {
+  background-image: url('../assets/icons/music.svg');
+}
+
+span[data-icon="arts"] {
+  background-image: url('../assets/icons/image_picture.svg');
+}
+
+span[data-icon="writing"] {
+  background-image: url('../assets/icons/script.svg');
+}
+
+#sectionsModule {
+  grid-area: sections;
+  z-index: 4;
+}
