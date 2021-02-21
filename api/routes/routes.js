@@ -4,9 +4,6 @@ const postController = require("../controllers/postController");
 const userController = require("../controllers/userController");
 const authController = require("../controllers/authController");
 const settingsController = require("../controllers/settingsController");
-const url = require('url');
-const passport = require('passport');
-const path = require("path");
 const { catchErrors } = require('../handlers/errorHandlers');
 
 
@@ -43,25 +40,9 @@ router.post("/settings",
 router.get("/account", authController.isLoggedIn, settingsController.account);
 
 router.get("/login", userController.loginForm);
-router.post("/register", authController.register);
 router.post("/login", catchErrors(authController.login));
 
-// router.post("/register",
-//   userController.validateRegister,
-//   userController.register,
-//   function(req, res, next) {
-//     passport.authenticate('local', function(err, user, info) {
-//       if (err) { return next(err); }
-//       if (!user) { return res.redirect('/login'); }
-//       req.logIn(user, function(err) {
-//         if (err) { return next(err); }
-//         res.send({
-//           response: { type: 'success', name: 'UserRegister', message: "Successfully registered. Welcome!" }
-//         });
-//       });
-//     })(req, res);
-//   },
-// );
+router.post("/register", authController.register);
 
 router.get("/logout", authController.logout);
 

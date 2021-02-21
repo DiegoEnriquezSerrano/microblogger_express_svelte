@@ -34,7 +34,7 @@ exports.flashValidationErrors = (err, req, res, next) => {
   // validation errors look like
   const errorKeys = Object.keys(err.errors);
   errorKeys.forEach(key => req.flash('error', err.errors[key].message));
-  res.redirect('back');
+  res.json(req.flash);
 };
 
 
@@ -51,13 +51,7 @@ exports.developmentErrors = (err, req, res, next) => {
     stackHighlighted: err.stack.replace(/[a-z_-\d]+.js:\d+:\d+/gi, '<mark>$&</mark>')
   };
   res.status(err.status || 500);
-  res.format({
-    // Based on the `Accept` http header
-    'text/html': () => {
-      res.render('error', errorDetails);
-    }, // Form Submit, Reload the page
-    'application/json': () => res.json(errorDetails) // Ajax call, send JSON back
-  });
+  res.json(errorDetails) // Ajax call, send JSON back
 };
 
 
