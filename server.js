@@ -62,6 +62,15 @@ app.use(morgan("dev")); // configire morgan
 
 app.use("/", blog);
 
+app.use(errorHandlers.notFound);
+app.use(errorHandlers.flashValidationErrors);
+
+if(app.get('env') === 'development') {
+  app.use(errorHandlers.developmentErrors);
+}
+
+app.use(errorHandlers.productionErrors)
+
 app.listen(PORT, err => {
   if (err) { 
     console.log('sever cannot listen');
