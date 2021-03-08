@@ -1,9 +1,6 @@
 let mongoose = require("mongoose");
 const { promisify } = require('es6-promisify');
 const jwt = require('jsonwebtoken');
-const cookieParser = require('cookie-parser');
-const passport = require('passport');
-const path = require("path");
 const User = require('../models/Users');
 
 exports.logout = (req, res) => {
@@ -11,13 +8,12 @@ exports.logout = (req, res) => {
   res.redirect('/');
 };
 
-exports.isLoggedIn = (req, res, next) => {
-  if(req.isAuthenticated()) {
-    next();
-  } else {
-    res.statusCode = 400;
-    res.redirect('/login');
-  };
+exports.isLoggedIn = async (req, res, next) => {
+  let jwtVerify = jwt.verify(req.cookies.microblogger, process.env.ACCESS_TOKEN_SECRET);
+  if (!jwtVerify) return res.status(401).send('Unauthorized request');
+  const user = await User.findOne({ _id: jwtVerify.data.user });
+  if (user) { return res.status(201).send(user) };
+  next();
 };
 
 exports.sendUser = async (req, res, next) => {
